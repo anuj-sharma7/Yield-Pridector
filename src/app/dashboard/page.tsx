@@ -20,11 +20,23 @@ import {
   Globe,
   Navigation,
   Layers,
-  Terminal
+  Terminal,
+  FileText,
+  Thermometer,
+  Clock
 } from "lucide-react";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import Link from "next/link";
 
 const data = [
   { name: "Mon", energy: 4000, water: 2400 },
@@ -72,7 +84,70 @@ export default function OverviewPage() {
           <p className="text-sm font-bold text-primary">Predicted Stress Alert</p>
           <p className="text-xs text-muted-foreground">South sector wheat fields (Zone-B) predicted to show critical water stress in 7 days.</p>
         </div>
-        <Button size="sm" className="bg-primary text-white hover:bg-primary/90 shadow-md">View Advisory</Button>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button size="sm" className="bg-primary text-white hover:bg-primary/90 shadow-md">
+              View Advisory
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="max-w-md">
+            <DialogHeader>
+              <DialogTitle className="font-headline flex items-center gap-2 text-primary">
+                <FileText className="size-5" /> Hyperlocal AI Advisory
+              </DialogTitle>
+              <DialogDescription>
+                Data-driven recommendation for Zone-B based on multi-temporal satellite analysis.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4 pt-4">
+              <div className="flex items-center gap-3 p-3 rounded-lg bg-orange-50 border border-orange-200">
+                <Thermometer className="size-5 text-orange-600" />
+                <div className="flex-1">
+                  <p className="text-xs font-bold text-orange-800 uppercase tracking-wider">LST DRIFT DETECTED</p>
+                  <p className="text-sm text-orange-700">+2.4°C Surface temp rise predicted.</p>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-2">
+                  <Activity className="size-3" /> AI Analysis Summary
+                </h4>
+                <p className="text-sm leading-relaxed text-foreground/80">
+                  Our Sentinel-2 tile stack (S2B_14Q) indicates a rapid NDVI decline in Sector 7. 
+                  Soil moisture retention is dropping below the 15% threshold.
+                </p>
+              </div>
+
+              <div className="space-y-3 p-4 rounded-xl border bg-secondary/20">
+                <h4 className="text-sm font-bold flex items-center gap-2 text-primary">
+                  <ArrowUpRight className="size-4 text-accent" /> Recommended Action
+                </h4>
+                <ul className="space-y-2">
+                  <li className="text-xs flex items-start gap-2">
+                    <div className="size-1.5 rounded-full bg-accent mt-1" />
+                    <span>Initiate deep-soil irrigation cycles within 48 hours.</span>
+                  </li>
+                  <li className="text-xs flex items-start gap-2">
+                    <div className="size-1.5 rounded-full bg-accent mt-1" />
+                    <span>Route 200kg of mature BioLoop compost to enhance water retention.</span>
+                  </li>
+                </ul>
+                <Button asChild size="sm" className="w-full mt-2 bg-primary text-white">
+                  <Link href="/dashboard/bioloop">Open BioLoop Routing</Link>
+                </Button>
+              </div>
+
+              <div className="flex justify-between items-center text-[10px] text-muted-foreground pt-2 border-t">
+                <div className="flex items-center gap-1">
+                  <Clock className="size-3" /> Generated 14:02 UTC
+                </div>
+                <div className="flex items-center gap-1">
+                  <Badge variant="outline" className="text-[9px] py-0 px-1">CONFIDENCE: 91.4%</Badge>
+                </div>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
 
       {/* KPI Stats */}
