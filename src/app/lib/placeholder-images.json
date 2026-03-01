@@ -3,9 +3,9 @@
   "placeholderImages": [
     {
       "id": "satellite-campus",
-      "description": "Satellite view of a modern university campus with green spaces",
-      "imageUrl": "https://picsum.photos/seed/viridian-1/1200/800",
-      "imageHint": "satellite campus"
+      "description": "Satellite view of a landscape in central India near Nagpur",
+      "imageUrl": "https://picsum.photos/seed/india-satellite-7/1200/800",
+      "imageHint": "satellite view india"
     },
     {
       "id": "crop-field",

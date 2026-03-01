@@ -19,7 +19,9 @@ import {
   Thermometer,
   Crosshair,
   Cpu,
-  RefreshCw
+  RefreshCw,
+  Globe,
+  Navigation
 } from "lucide-react";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
@@ -37,15 +39,15 @@ const data = [
 ];
 
 export default function OverviewPage() {
-  const [coords, setCoords] = useState({ lat: "20.5937", lng: "78.9629" });
+  const [coords, setCoords] = useState({ lat: "21.1458", lng: "79.0882" }); // Nagpur, Central India
   const satelliteImg = PlaceHolderImages.find(img => img.id === "satellite-campus")?.imageUrl;
 
   // Live coordinate jitter for "Live" feel
   useEffect(() => {
     const timer = setInterval(() => {
       setCoords({
-        lat: (20.5937 + (Math.random() - 0.5) * 0.0001).toFixed(4),
-        lng: (78.9629 + (Math.random() - 0.5) * 0.0001).toFixed(4)
+        lat: (21.1458 + (Math.random() - 0.5) * 0.0001).toFixed(4),
+        lng: (79.0882 + (Math.random() - 0.5) * 0.0001).toFixed(4)
       });
     }, 1500);
     return () => clearInterval(timer);
@@ -98,15 +100,15 @@ export default function OverviewPage() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
-        {/* Enhanced Satellite Intel Layer */}
+        {/* Enhanced Satellite Intel Layer - India Location */}
         <Card className="lg:col-span-2 overflow-hidden border-none shadow-xl bg-slate-900 h-[500px] relative group">
           <CardHeader className="absolute top-0 left-0 w-full z-20 pointer-events-none flex flex-row items-center justify-between p-4 bg-gradient-to-b from-black/80 to-transparent">
             <div className="pointer-events-auto">
               <CardTitle className="font-headline text-xl text-white flex items-center gap-2">
-                <Satellite className="size-5 text-accent animate-pulse" /> Live Satellite Intel
+                <Satellite className="size-5 text-accent animate-pulse" /> Live Sentinel Intel
               </CardTitle>
-              <CardDescription className="text-white/60 text-xs font-mono">
-                Sentinel-2B • Lat: {coords.lat} • Lng: {coords.lng}
+              <CardDescription className="text-white/60 text-xs font-mono flex items-center gap-2">
+                <Globe className="size-3" /> Region: Maharashtra, India • Lat: {coords.lat} • Lng: {coords.lng}
               </CardDescription>
             </div>
             <div className="flex gap-2 pointer-events-auto">
@@ -120,11 +122,12 @@ export default function OverviewPage() {
               <>
                 <Image
                   src={satelliteImg}
-                  alt="Campus Satellite"
+                  alt="India Satellite View"
                   fill
-                  className="object-cover opacity-80"
-                  data-ai-hint="satellite campus"
+                  className="object-cover opacity-80 grayscale-[0.2] contrast-[1.1]"
+                  data-ai-hint="satellite view india"
                 />
+                
                 {/* HUD Overlays */}
                 <div className="absolute inset-0 z-10 pointer-events-none">
                   {/* Scan Line Animation */}
@@ -135,11 +138,37 @@ export default function OverviewPage() {
                     <Crosshair className="size-16 text-accent/30 stroke-[1]" />
                   </div>
 
+                  {/* Feed Data Overlay - Top Right Area */}
+                  <div className="absolute top-20 right-4 w-48 bg-black/40 backdrop-blur-md border border-white/10 rounded-lg p-2 space-y-2 pointer-events-auto">
+                     <div className="flex items-center justify-between">
+                        <span className="text-[8px] uppercase font-bold text-white/40 tracking-widest">Feed Metadata</span>
+                        <RefreshCw className="size-2 text-accent animate-spin" />
+                     </div>
+                     <div className="space-y-1">
+                        <div className="flex justify-between text-[9px]">
+                           <span className="text-white/60">Orbit:</span>
+                           <span className="text-white font-mono">S2B-Descending</span>
+                        </div>
+                        <div className="flex justify-between text-[9px]">
+                           <span className="text-white/60">Cloud Cover:</span>
+                           <span className="text-accent font-mono">4.2%</span>
+                        </div>
+                        <div className="flex justify-between text-[9px]">
+                           <span className="text-white/60">Bands:</span>
+                           <span className="text-white font-mono">B04, B08, B11</span>
+                        </div>
+                        <div className="flex justify-between text-[9px]">
+                           <span className="text-white/60">Atm. Corr:</span>
+                           <span className="text-white font-mono">Level-2A</span>
+                        </div>
+                     </div>
+                  </div>
+
                   {/* Telemetry Sidebar inside Map */}
                   <div className="absolute bottom-4 right-4 w-48 bg-black/60 backdrop-blur-xl border border-white/10 rounded-xl p-3 space-y-3 pointer-events-auto">
                     <div className="flex items-center justify-between text-[10px] uppercase font-bold text-white/50 tracking-widest">
                       <span>Telemetry</span>
-                      <RefreshCw className="size-2 animate-spin" />
+                      <Activity className="size-2 text-accent" />
                     </div>
                     <div className="space-y-2">
                       <div className="flex justify-between items-end">
@@ -164,7 +193,7 @@ export default function OverviewPage() {
                   {/* Live Status HUD */}
                   <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-xl border border-white/10 rounded-xl p-2 flex items-center gap-3 pointer-events-auto">
                     <div className="size-2 rounded-full bg-accent animate-pulse" />
-                    <span className="text-[10px] font-bold text-white/80 uppercase tracking-widest">ROCm Engine Linked</span>
+                    <span className="text-[10px] font-bold text-white/80 uppercase tracking-widest">AMD ROCm Engine Linked</span>
                   </div>
                 </div>
               </>
