@@ -122,7 +122,7 @@ export default function CampusGuardPage() {
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="p-3 rounded-lg bg-white border border-border">
               <p className="text-xs font-bold text-primary">Rule: Overnight Power Cutoff</p>
-              <p className="text-[11px] text-muted-foreground mt-1">Trigger: LSTM prediction of >2kW idle load in Computer Labs after 11 PM.</p>
+              <p className="text-[11px] text-muted-foreground mt-1">Trigger: LSTM prediction of &gt;2kW idle load in Computer Labs after 11 PM.</p>
             </div>
             <div className="p-3 rounded-lg bg-white border border-border">
               <p className="text-xs font-bold text-primary">Rule: Leakage Lockdown</p>
