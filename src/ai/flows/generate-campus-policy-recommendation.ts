@@ -47,7 +47,7 @@ NDVI Loss Tracking: {{{ndviLossDescription}}}
 
 {{#if airQualitySummary}}
 Air Quality Summary: {{{airQualitySummary}}}
-{{/if}}}
+{{/if}}
 
 {{#if carbonFootprintSummary}}
 Carbon Footprint Summary: {{{carbonFootprintSummary}}}

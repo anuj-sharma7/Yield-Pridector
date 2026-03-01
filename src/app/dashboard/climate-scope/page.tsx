@@ -1,11 +1,10 @@
-
 "use client";
 
 import { useState } from "react";
 import { generateCampusPolicyRecommendation } from "@/ai/flows/generate-campus-policy-recommendation";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CloudSun, Thermometer, Wind, Zap, Sparkles, FileText, Loader2 } from "lucide-react";
+import { CloudSun, Thermometer, Wind, Zap, Sparkles, FileText, Loader2, Info } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export default function ClimateScopePage() {
@@ -15,18 +14,20 @@ export default function ClimateScopePage() {
 
   async function handleGeneratePolicy() {
     setLoading(true);
+    setRecommendation(null);
     try {
       const result = await generateCampusPolicyRecommendation({
         campusDescription: "Modern technical campus with 40% concrete coverage and 15 student hostels.",
         heatIslandData: "Hostel B and Admin Block show +4.2°C LST vs central library gardens.",
         ndviLossDescription: "12% reduction in green cover near North Entrance due to new parking project.",
         airQualitySummary: "PM2.5 spike detected during peak hours (8-10 AM) near Gate 1.",
-        carbonFootprintSummary: "Energy consumption up by 14% year-on-year, primarily HVAC load."
+        carbonFootprintSummary: "Energy consumption up by 14% year-on-year, primarily HVAC load.",
+        wasteManagementSummary: "500kg organic waste landfilled daily."
       });
       setRecommendation(result.policyRecommendations);
       toast({ title: "Policy Engine Complete", description: "AI has generated data-driven recommendations." });
     } catch (error) {
-      toast({ title: "Policy Engine Error", description: "Could not generate recommendations.", variant: "destructive" });
+      toast({ title: "Policy Engine Error", description: "Could not generate recommendations. Verify your API keys.", variant: "destructive" });
     } finally {
       setLoading(false);
     }
@@ -63,19 +64,27 @@ export default function ClimateScopePage() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
-        <Card className="lg:col-span-2 border-none shadow-sm min-h-[400px]">
-          <CardHeader className="flex flex-row items-center justify-between">
+        <Card className="lg:col-span-2 border-none shadow-sm min-h-[400px] flex flex-col">
+          <CardHeader className="flex flex-row items-center justify-between shrink-0">
             <div>
               <CardTitle className="font-headline">Data-Driven Policy Assistant</CardTitle>
               <CardDescription>Generates actionable sustainability mandates based on telemetry data.</CardDescription>
             </div>
             <Button onClick={handleGeneratePolicy} disabled={loading} className="gap-2 bg-primary">
               {loading ? <Loader2 className="size-4 animate-spin" /> : <Sparkles className="size-4" />}
-              Generate Policy
+              {loading ? "Analyzing..." : "Generate Policy"}
             </Button>
           </CardHeader>
-          <CardContent>
-            {recommendation ? (
+          <CardContent className="flex-1 overflow-auto">
+            {loading ? (
+              <div className="h-full flex flex-col items-center justify-center text-center p-12 space-y-4">
+                <Loader2 className="size-12 animate-spin text-primary opacity-50" />
+                <div className="space-y-2">
+                  <p className="text-sm font-medium">Processing Satellite & IoT Telemetry...</p>
+                  <p className="text-xs text-muted-foreground">Synthesizing environmental stressors into policy recommendations.</p>
+                </div>
+              </div>
+            ) : recommendation ? (
               <div className="prose prose-sm max-w-none bg-secondary/20 p-6 rounded-xl border border-border">
                 <div className="flex items-center gap-2 mb-4 text-primary font-bold border-b pb-2">
                   <FileText className="size-4" /> AI Recommendation Draft
@@ -111,7 +120,9 @@ export default function ClimateScopePage() {
                 <span className="text-xs">Hostel B Facade</span>
                 <span className="text-xs font-bold text-accent">34.2°C</span>
               </div>
-              <p className="text-[11px] opacity-80 mt-2 italic">Recommendation: Overlay with "Cool Roof" white coating for 3°C reduction.</p>
+              <p className="text-[11px] opacity-80 mt-2 italic flex items-center gap-1">
+                <Info className="size-3" /> Recommendation: Overlay with "Cool Roof" coating.
+              </p>
             </CardContent>
           </Card>
 
@@ -127,7 +138,7 @@ export default function ClimateScopePage() {
               </div>
               <div className="flex justify-between mt-2 text-[10px] text-muted-foreground">
                 <span>08:00</span>
-                <span>Peak</span>
+                <span>Peak Traffic</span>
                 <span>18:00</span>
               </div>
             </CardContent>
