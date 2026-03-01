@@ -11,22 +11,20 @@ import {
   Sprout, 
   Droplets, 
   Recycle, 
-  Map as MapIcon, 
   ArrowUpRight, 
   AlertTriangle,
   Satellite,
   Activity,
-  Thermometer,
   Crosshair,
-  Cpu,
   RefreshCw,
   Globe,
-  Navigation
+  Navigation,
+  Layers,
+  Terminal
 } from "lucide-react";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-import { cn } from "@/lib/utils";
 
 const data = [
   { name: "Mon", energy: 4000, water: 2400 },
@@ -40,16 +38,26 @@ const data = [
 
 export default function OverviewPage() {
   const [coords, setCoords] = useState({ lat: "21.1458", lng: "79.0882" }); // Nagpur, Central India
+  const [logs, setLogs] = useState<string[]>([]);
   const satelliteImg = PlaceHolderImages.find(img => img.id === "satellite-campus")?.imageUrl;
 
-  // Live coordinate jitter for "Live" feel
+  // Live coordinate jitter and log simulation
   useEffect(() => {
     const timer = setInterval(() => {
       setCoords({
         lat: (21.1458 + (Math.random() - 0.5) * 0.0001).toFixed(4),
         lng: (79.0882 + (Math.random() - 0.5) * 0.0001).toFixed(4)
       });
-    }, 1500);
+      
+      const messages = [
+        "FETCHING TILE S2B_14Q...",
+        "ATMOSPHERIC CORRECTION: LEVEL-2A",
+        "B04/B08 SPECTRAL SYNC",
+        "AMD ROCm INFERENCE: ACTIVE",
+        "NDVI CALCULATED: 0.68"
+      ];
+      setLogs(prev => [messages[Math.floor(Math.random() * messages.length)], ...prev].slice(0, 4));
+    }, 2000);
     return () => clearInterval(timer);
   }, []);
 
@@ -101,14 +109,14 @@ export default function OverviewPage() {
 
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Enhanced Satellite Intel Layer - India Location */}
-        <Card className="lg:col-span-2 overflow-hidden border-none shadow-xl bg-slate-900 h-[500px] relative group">
+        <Card className="lg:col-span-2 overflow-hidden border-none shadow-xl bg-slate-900 h-[550px] relative group">
           <CardHeader className="absolute top-0 left-0 w-full z-20 pointer-events-none flex flex-row items-center justify-between p-4 bg-gradient-to-b from-black/80 to-transparent">
             <div className="pointer-events-auto">
               <CardTitle className="font-headline text-xl text-white flex items-center gap-2">
                 <Satellite className="size-5 text-accent animate-pulse" /> Live Sentinel Intel
               </CardTitle>
               <CardDescription className="text-white/60 text-xs font-mono flex items-center gap-2">
-                <Globe className="size-3" /> Region: Maharashtra, India • Lat: {coords.lat} • Lng: {coords.lng}
+                <Globe className="size-3" /> Region: Nagpur, India • Lat: {coords.lat} • Lng: {coords.lng}
               </CardDescription>
             </div>
             <div className="flex gap-2 pointer-events-auto">
@@ -125,75 +133,92 @@ export default function OverviewPage() {
                   alt="India Satellite View"
                   fill
                   className="object-cover opacity-80 grayscale-[0.2] contrast-[1.1]"
-                  data-ai-hint="satellite view india"
+                  data-ai-hint="satellite view india map"
                 />
                 
                 {/* HUD Overlays */}
                 <div className="absolute inset-0 z-10 pointer-events-none">
+                  {/* Tactical Grid Overlay */}
+                  <svg className="absolute inset-0 w-full h-full opacity-10">
+                    <defs>
+                      <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+                        <path d="M 60 0 L 0 0 0 60" fill="none" stroke="white" strokeWidth="0.5"/>
+                      </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#grid)" />
+                  </svg>
+
                   {/* Scan Line Animation */}
-                  <div className="absolute top-0 left-0 w-full h-1 bg-accent/40 shadow-[0_0_15px_#5FE630] animate-[scan_4s_linear_infinite]" />
+                  <div className="absolute top-0 left-0 w-full h-[2px] bg-accent/40 shadow-[0_0_15px_#5FE630] animate-[scan_6s_linear_infinite]" />
                   
                   {/* Crosshair */}
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                    <Crosshair className="size-16 text-accent/30 stroke-[1]" />
+                    <Crosshair className="size-16 text-accent/30 stroke-[0.5]" />
                   </div>
 
-                  {/* Feed Data Overlay - Top Right Area */}
-                  <div className="absolute top-20 right-4 w-48 bg-black/40 backdrop-blur-md border border-white/10 rounded-lg p-2 space-y-2 pointer-events-auto">
-                     <div className="flex items-center justify-between">
-                        <span className="text-[8px] uppercase font-bold text-white/40 tracking-widest">Feed Metadata</span>
-                        <RefreshCw className="size-2 text-accent animate-spin" />
-                     </div>
-                     <div className="space-y-1">
-                        <div className="flex justify-between text-[9px]">
-                           <span className="text-white/60">Orbit:</span>
-                           <span className="text-white font-mono">S2B-Descending</span>
+                  {/* Live Feed Logs - Top Right */}
+                  <div className="absolute top-20 right-4 w-52 bg-black/50 backdrop-blur-lg border border-white/10 rounded-xl p-3 space-y-2 pointer-events-auto overflow-hidden">
+                    <div className="flex items-center justify-between text-[8px] uppercase font-bold text-accent tracking-widest">
+                      <span>Feed Telemetry</span>
+                      <Terminal className="size-2" />
+                    </div>
+                    <div className="space-y-1 font-mono text-[9px] text-white/70">
+                      {logs.map((log, i) => (
+                        <div key={i} className="flex gap-2 items-center">
+                          <span className="text-accent/50">›</span>
+                          <span className="truncate">{log}</span>
                         </div>
-                        <div className="flex justify-between text-[9px]">
-                           <span className="text-white/60">Cloud Cover:</span>
-                           <span className="text-accent font-mono">4.2%</span>
-                        </div>
-                        <div className="flex justify-between text-[9px]">
-                           <span className="text-white/60">Bands:</span>
-                           <span className="text-white font-mono">B04, B08, B11</span>
-                        </div>
-                        <div className="flex justify-between text-[9px]">
-                           <span className="text-white/60">Atm. Corr:</span>
-                           <span className="text-white font-mono">Level-2A</span>
-                        </div>
-                     </div>
+                      ))}
+                    </div>
                   </div>
 
-                  {/* Telemetry Sidebar inside Map */}
-                  <div className="absolute bottom-4 right-4 w-48 bg-black/60 backdrop-blur-xl border border-white/10 rounded-xl p-3 space-y-3 pointer-events-auto">
+                  {/* Satellite Metadata Overlay */}
+                  <div className="absolute bottom-4 right-4 w-56 bg-black/60 backdrop-blur-xl border border-white/10 rounded-xl p-4 space-y-4 pointer-events-auto">
                     <div className="flex items-center justify-between text-[10px] uppercase font-bold text-white/50 tracking-widest">
-                      <span>Telemetry</span>
+                      <span>Live Spectral Data</span>
                       <Activity className="size-2 text-accent" />
                     </div>
-                    <div className="space-y-2">
-                      <div className="flex justify-between items-end">
-                        <span className="text-[10px] text-white/70">Chlorophyll (NDVI)</span>
-                        <span className="text-xs font-bold text-accent">68%</span>
+                    
+                    <div className="space-y-3">
+                      <div className="space-y-1.5">
+                        <div className="flex justify-between items-center text-[9px]">
+                          <span className="text-white/60">Chlorophyll (B8)</span>
+                          <span className="text-accent font-bold">68.2%</span>
+                        </div>
+                        <div className="h-1 bg-white/10 rounded-full overflow-hidden">
+                          <div className="h-full bg-accent w-[68%]" />
+                        </div>
                       </div>
-                      <div className="h-1 bg-white/10 rounded-full overflow-hidden">
-                        <div className="h-full bg-accent w-[68%]" />
+                      <div className="space-y-1.5">
+                        <div className="flex justify-between items-center text-[9px]">
+                          <span className="text-white/60">Thermal Flux (B11)</span>
+                          <span className="text-orange-400 font-bold">42.1%</span>
+                        </div>
+                        <div className="h-1 bg-white/10 rounded-full overflow-hidden">
+                          <div className="h-full bg-orange-400 w-[42%]" />
+                        </div>
                       </div>
                     </div>
-                    <div className="space-y-2">
-                      <div className="flex justify-between items-end">
-                        <span className="text-[10px] text-white/70">Thermal Load (LST)</span>
-                        <span className="text-xs font-bold text-orange-400">31.4°</span>
+
+                    <div className="grid grid-cols-2 gap-2 pt-2 border-t border-white/10">
+                      <div className="text-center">
+                        <p className="text-[7px] uppercase text-white/40">Cloud Cover</p>
+                        <p className="text-[10px] font-bold text-white">4.2%</p>
                       </div>
-                      <div className="h-1 bg-white/10 rounded-full overflow-hidden">
-                        <div className="h-full bg-orange-400 w-[42%]" />
+                      <div className="text-center border-l border-white/10">
+                        <p className="text-[7px] uppercase text-white/40">Res</p>
+                        <p className="text-[10px] font-bold text-white">10m/px</p>
                       </div>
                     </div>
                   </div>
 
                   {/* Live Status HUD */}
-                  <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-xl border border-white/10 rounded-xl p-2 flex items-center gap-3 pointer-events-auto">
-                    <div className="size-2 rounded-full bg-accent animate-pulse" />
-                    <span className="text-[10px] font-bold text-white/80 uppercase tracking-widest">AMD ROCm Engine Linked</span>
+                  <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-xl border border-white/10 rounded-xl p-2.5 flex items-center gap-3 pointer-events-auto">
+                    <div className="size-2 rounded-full bg-accent animate-pulse shadow-[0_0_8px_#5FE630]" />
+                    <div className="flex flex-col leading-tight">
+                      <span className="text-[9px] font-bold text-white uppercase tracking-widest">AMD ROCm Engine Linked</span>
+                      <span className="text-[7px] text-white/40 font-mono italic">Nagpur-SEC-A-4</span>
+                    </div>
                   </div>
                 </div>
               </>

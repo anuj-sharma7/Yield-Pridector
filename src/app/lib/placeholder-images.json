@@ -1,17 +1,16 @@
-
 {
   "placeholderImages": [
     {
       "id": "satellite-campus",
-      "description": "Satellite view of a landscape in central India near Nagpur",
-      "imageUrl": "https://picsum.photos/seed/india-satellite-7/1200/800",
-      "imageHint": "satellite view india"
+      "description": "Tactical satellite map view of a landscape in central India showing agriculture grids",
+      "imageUrl": "https://picsum.photos/seed/india-tactical-map/1200/800",
+      "imageHint": "satellite map india"
     },
     {
       "id": "crop-field",
-      "description": "Aerial view of agricultural crop fields",
-      "imageUrl": "https://picsum.photos/seed/viridian-2/800/600",
-      "imageHint": "aerial farm"
+      "description": "Aerial view of agricultural crop fields with infrared stress patterns",
+      "imageUrl": "https://picsum.photos/seed/viridian-infrared/800/600",
+      "imageHint": "infrared farm"
     },
     {
       "id": "compost-facility",
