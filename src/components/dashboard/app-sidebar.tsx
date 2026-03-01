@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -22,7 +23,6 @@ import {
   Trophy,
   MessageSquare,
   Cpu,
-  Clapperboard,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -62,11 +62,6 @@ const items = [
     title: "Leaderboard",
     url: "/dashboard/leaderboard",
     icon: Trophy,
-  },
-  {
-    title: "Pitch Studio",
-    url: "/dashboard/pitch",
-    icon: Clapperboard,
   },
   {
     title: "AI Assistant",

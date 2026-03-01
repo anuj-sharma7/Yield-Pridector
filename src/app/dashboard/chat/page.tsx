@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -6,12 +7,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MessageSquare, Send, Bot, User, Sparkles, Clapperboard } from "lucide-react";
+import { MessageSquare, Send, Bot, User, Sparkles } from "lucide-react";
 
 export default function ChatPage() {
   const [query, setQuery] = useState("");
   const [messages, setMessages] = useState<{ role: "user" | "bot"; text: string }[]>([
-    { role: "bot", text: "Hello! I am your VIRIDIAN Sustainability Assistant. How can I help you analyze campus data or prepare a demo today?" }
+    { role: "bot", text: "Hello! I am your VIRIDIAN Sustainability Assistant. How can I help you analyze campus data today?" }
   ]);
   const [loading, setLoading] = useState(false);
 
@@ -34,8 +35,8 @@ export default function ChatPage() {
   }
 
   const quickActions = [
-    { label: "Generate Demo Script", query: "Give me a professional video recording script covering all VIRIDIAN AI features for a campus demo.", icon: Clapperboard },
-    { label: "Energy Anomaly Score", query: "Which building has the highest energy anomaly score currently?", icon: Sparkles },
+    { label: "Check Energy Anomaly", query: "Which building has the highest energy anomaly score currently?", icon: Sparkles },
+    { label: "Water Usage Insight", query: "Give me a summary of predicted water usage for the next week.", icon: Sparkles },
   ];
 
   return (
@@ -44,7 +45,7 @@ export default function ChatPage() {
         <h2 className="font-headline text-2xl font-bold text-primary flex items-center gap-2">
           <MessageSquare className="size-6" /> Campus AI Assistant
         </h2>
-        <p className="text-muted-foreground">Ask questions or generate professional demo scripts for video recordings.</p>
+        <p className="text-muted-foreground">Ask questions about your sustainability data or get real-time insights.</p>
       </div>
 
       <Card className="flex-1 overflow-hidden border-none shadow-sm flex flex-col">
@@ -89,7 +90,7 @@ export default function ChatPage() {
                     <Bot className="size-4" />
                   </div>
                   <div className="bg-secondary text-secondary-foreground rounded-2xl rounded-tl-none px-4 py-2.5 text-sm animate-pulse border border-border/50">
-                    Synthesizing features and Demo Scenarios...
+                    Analyzing sustainability telemetry...
                   </div>
                 </div>
               )}
@@ -99,7 +100,7 @@ export default function ChatPage() {
         <div className="p-4 border-t bg-background">
           <form className="flex gap-2" onSubmit={(e) => { e.preventDefault(); handleSend(); }}>
             <Input 
-              placeholder="e.g., Generate a demo script for my video recording..."
+              placeholder="Ask me about energy, water, or satellite data..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               className="flex-1"
@@ -110,7 +111,7 @@ export default function ChatPage() {
             </Button>
           </form>
           <p className="text-[10px] text-center text-muted-foreground mt-2">
-            AI can generate scripts and insights. Verify critical data before broadcasting.
+            AI can generate insights. Verify critical data before taking major actions.
           </p>
         </div>
       </Card>
