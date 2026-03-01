@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -23,7 +22,8 @@ import {
   Eye,
   Maximize2,
   ZoomIn,
-  ZoomOut
+  ZoomOut,
+  Cpu
 } from "lucide-react";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
