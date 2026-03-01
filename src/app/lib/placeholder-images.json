@@ -1,0 +1,29 @@
+
+{
+  "placeholderImages": [
+    {
+      "id": "satellite-campus",
+      "description": "Satellite view of a modern university campus with green spaces",
+      "imageUrl": "https://picsum.photos/seed/viridian-1/1200/800",
+      "imageHint": "satellite campus"
+    },
+    {
+      "id": "crop-field",
+      "description": "Aerial view of agricultural crop fields",
+      "imageUrl": "https://picsum.photos/seed/viridian-2/800/600",
+      "imageHint": "aerial farm"
+    },
+    {
+      "id": "compost-facility",
+      "description": "Modern composting facility on campus",
+      "imageUrl": "https://picsum.photos/seed/viridian-3/600/400",
+      "imageHint": "compost facility"
+    },
+    {
+      "id": "energy-dashboard",
+      "description": "Abstract representation of energy monitoring",
+      "imageUrl": "https://picsum.photos/seed/viridian-4/600/400",
+      "imageHint": "energy tech"
+    }
+  ]
+}

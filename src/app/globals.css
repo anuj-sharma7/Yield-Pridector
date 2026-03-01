@@ -1,0 +1,76 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Primary: #1F7A4F (Viridian Green) */
+    --background: 156 22% 95%; /* #EFF6F3 */
+    --foreground: 154 60% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 154 60% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 154 60% 10%;
+    --primary: 151 59% 30%; /* #1F7A4F */
+    --primary-foreground: 156 22% 98%;
+    --secondary: 156 20% 90%;
+    --secondary-foreground: 151 59% 25%;
+    --muted: 156 10% 85%;
+    --muted-foreground: 154 20% 40%;
+    --accent: 105 78% 55%; /* #5FE630 - Lime */
+    --accent-foreground: 151 59% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 156 20% 85%;
+    --input: 156 20% 85%;
+    --ring: 151 59% 30%;
+    --radius: 0.75rem;
+    --chart-1: 151 59% 30%;
+    --chart-2: 105 78% 55%;
+    --chart-3: 173 58% 39%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --sidebar-background: 156 22% 93%;
+    --sidebar-foreground: 151 59% 15%;
+    --sidebar-primary: 151 59% 30%;
+    --sidebar-primary-foreground: 156 22% 98%;
+    --sidebar-accent: 105 78% 90%;
+    --sidebar-accent-foreground: 151 59% 20%;
+    --sidebar-border: 156 20% 85%;
+    --sidebar-ring: 151 59% 30%;
+  }
+  .dark {
+    --background: 154 60% 5%;
+    --foreground: 156 22% 98%;
+    --card: 154 60% 8%;
+    --card-foreground: 156 22% 98%;
+    --popover: 154 60% 8%;
+    --popover-foreground: 156 22% 98%;
+    --primary: 151 59% 45%;
+    --primary-foreground: 154 60% 5%;
+    --secondary: 154 60% 15%;
+    --secondary-foreground: 156 22% 98%;
+    --muted: 154 60% 15%;
+    --muted-foreground: 156 22% 60%;
+    --accent: 105 78% 55%;
+    --accent-foreground: 154 60% 5%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 156 22% 98%;
+    --border: 154 60% 20%;
+    --input: 154 60% 20%;
+    --ring: 151 59% 45%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-body;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-headline;
+  }
+}
