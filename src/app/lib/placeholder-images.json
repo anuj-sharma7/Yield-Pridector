@@ -24,6 +24,12 @@
       "description": "Abstract representation of energy monitoring",
       "imageUrl": "https://picsum.photos/seed/viridian-4/600/400",
       "imageHint": "energy tech"
+    },
+    {
+      "id": "target-zone-map",
+      "description": "Topographic map view of the target research zone",
+      "imageUrl": "https://picsum.photos/seed/target-map/400/300",
+      "imageHint": "topographic map"
     }
   ]
 }

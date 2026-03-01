@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -27,7 +28,8 @@ import {
   Droplets,
   Sun,
   Wind,
-  Navigation
+  Navigation,
+  Activity
 } from "lucide-react";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
@@ -45,7 +47,7 @@ export default function SatPredictPage() {
   const { toast } = useToast();
 
   const baseImage = PlaceHolderImages.find(img => img.id === "crop-field")?.imageUrl;
-  const contextMapImg = PlaceHolderImages.find(img => img.id === "satellite-campus")?.imageUrl;
+  const targetZoneMap = PlaceHolderImages.find(img => img.id === "target-zone-map")?.imageUrl;
 
   // Simulate mouse movement for coordinate tracking
   useEffect(() => {
@@ -249,40 +251,57 @@ export default function SatPredictPage() {
              </div>
           </div>
 
-          {/* Location Context Inset (NEW) */}
+          {/* Location Context Inset with Map Image */}
           <div className="absolute top-6 right-6 z-20 w-56 pointer-events-auto hidden md:block">
             <Card className="bg-black/60 backdrop-blur-xl border border-white/10 overflow-hidden shadow-2xl">
               <div className="relative h-32 w-full">
-                {contextMapImg && (
+                {targetZoneMap ? (
                   <Image 
-                    src={contextMapImg} 
-                    alt="Target Context" 
+                    src={targetZoneMap} 
+                    alt="Target Context Map" 
                     fill 
-                    className="object-cover opacity-60"
+                    className="object-cover opacity-70 group-hover:scale-110 transition-transform duration-1000"
+                    data-ai-hint="topographic map"
                   />
+                ) : (
+                  <div className="w-full h-full bg-slate-800 flex items-center justify-center">
+                    <MapIcon className="size-8 text-white/20" />
+                  </div>
                 )}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="size-4 rounded-full border-2 border-accent animate-ping" />
-                  <Navigation className="size-4 text-white absolute" />
+                {/* Tactical Overlays */}
+                <div className="absolute inset-0 flex items-center justify-center bg-accent/5 pointer-events-none">
+                  <div className="size-12 rounded-full border border-accent/20 animate-ping" />
+                  <div className="size-6 rounded-full border-2 border-accent flex items-center justify-center">
+                    <Navigation className="size-3 text-white fill-accent animate-pulse" />
+                  </div>
+                </div>
+                {/* Map Coordinates Legend */}
+                <div className="absolute bottom-1 right-1 bg-black/60 px-1 rounded text-[8px] font-mono text-white/80">
+                  MAP-GRID: SEC4-ALPHA
                 </div>
               </div>
               <CardContent className="p-3 space-y-3">
-                <h4 className="text-[10px] uppercase font-bold text-white/50 tracking-widest">Zone Telemetry</h4>
+                <div className="flex items-center justify-between">
+                  <h4 className="text-[10px] uppercase font-bold text-white/50 tracking-widest flex items-center gap-1">
+                    <Activity className="size-2 text-accent" /> Zone Telemetry
+                  </h4>
+                  <span className="text-[8px] font-mono text-accent">LIVE</span>
+                </div>
                 <div className="grid grid-cols-2 gap-2">
-                  <div className="space-y-0.5">
-                    <p className="text-[9px] text-white/40 uppercase">Solar Rad</p>
+                  <div className="space-y-0.5 p-1.5 rounded bg-white/5 border border-white/10">
+                    <p className="text-[8px] text-white/40 uppercase font-bold">Solar Rad</p>
                     <p className="text-xs font-bold text-accent">840 W/m²</p>
                   </div>
-                  <div className="space-y-0.5">
-                    <p className="text-[9px] text-white/40 uppercase">Soil pH</p>
-                    <p className="text-xs font-bold text-orange-400">6.4 (Acid)</p>
+                  <div className="space-y-0.5 p-1.5 rounded bg-white/5 border border-white/10">
+                    <p className="text-[8px] text-white/40 uppercase font-bold">Soil pH</p>
+                    <p className="text-xs font-bold text-orange-400">6.4</p>
                   </div>
-                  <div className="space-y-0.5">
-                    <p className="text-[9px] text-white/40 uppercase">Humid</p>
+                  <div className="space-y-0.5 p-1.5 rounded bg-white/5 border border-white/10">
+                    <p className="text-[8px] text-white/40 uppercase font-bold">Humidity</p>
                     <p className="text-xs font-bold text-blue-400">62%</p>
                   </div>
-                  <div className="space-y-0.5">
-                    <p className="text-[9px] text-white/40 uppercase">VPD</p>
+                  <div className="space-y-0.5 p-1.5 rounded bg-white/5 border border-white/10">
+                    <p className="text-[8px] text-white/40 uppercase font-bold">VPD</p>
                     <p className="text-xs font-bold text-white">1.2 kPa</p>
                   </div>
                 </div>
