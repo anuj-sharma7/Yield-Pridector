@@ -23,7 +23,11 @@ import {
   Maximize2,
   ZoomIn,
   ZoomOut,
-  Cpu
+  Cpu,
+  Droplets,
+  Sun,
+  Wind,
+  Navigation
 } from "lucide-react";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
@@ -41,6 +45,7 @@ export default function SatPredictPage() {
   const { toast } = useToast();
 
   const baseImage = PlaceHolderImages.find(img => img.id === "crop-field")?.imageUrl;
+  const contextMapImg = PlaceHolderImages.find(img => img.id === "satellite-campus")?.imageUrl;
 
   // Simulate mouse movement for coordinate tracking
   useEffect(() => {
@@ -57,7 +62,6 @@ export default function SatPredictPage() {
     setLoading(true);
     setVideoUrl(null);
     try {
-      // Mocking the AI response for high-fidelity demo purposes
       await new Promise(r => setTimeout(r, 2000));
       setHeatmapUrl(baseImage || null);
       setActiveLayer("ndvi");
@@ -122,7 +126,7 @@ export default function SatPredictPage() {
 
       <div className="grid gap-6 lg:grid-cols-4">
         {/* Main Map Viewer */}
-        <Card className="lg:col-span-3 overflow-hidden border-none shadow-xl h-[700px] relative bg-slate-900 group">
+        <Card className="lg:col-span-3 overflow-hidden border-none shadow-xl h-[750px] relative bg-slate-900 group">
           {/* Map Header HUD */}
           <div className="absolute top-0 left-0 w-full z-20 p-4 pointer-events-none flex justify-between items-start">
             <div className="flex flex-col gap-2">
@@ -175,6 +179,9 @@ export default function SatPredictPage() {
                   )}
                   data-ai-hint="aerial farm"
                 />
+                {/* HUD Scan Line */}
+                <div className="absolute top-0 left-0 w-full h-1 bg-accent/30 shadow-[0_0_15px_#5FE630] animate-[scan_4s_linear_infinite]" />
+                
                 {/* Heatmap/Overlay layer */}
                 {(heatmapUrl || activeLayer !== 'rgb') && (
                   <div className={cn(
@@ -240,6 +247,47 @@ export default function SatPredictPage() {
                   <Thermometer className="size-4" /> Thermal (LST)
                 </Button>
              </div>
+          </div>
+
+          {/* Location Context Inset (NEW) */}
+          <div className="absolute top-6 right-6 z-20 w-56 pointer-events-auto hidden md:block">
+            <Card className="bg-black/60 backdrop-blur-xl border border-white/10 overflow-hidden shadow-2xl">
+              <div className="relative h-32 w-full">
+                {contextMapImg && (
+                  <Image 
+                    src={contextMapImg} 
+                    alt="Target Context" 
+                    fill 
+                    className="object-cover opacity-60"
+                  />
+                )}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="size-4 rounded-full border-2 border-accent animate-ping" />
+                  <Navigation className="size-4 text-white absolute" />
+                </div>
+              </div>
+              <CardContent className="p-3 space-y-3">
+                <h4 className="text-[10px] uppercase font-bold text-white/50 tracking-widest">Zone Telemetry</h4>
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="space-y-0.5">
+                    <p className="text-[9px] text-white/40 uppercase">Solar Rad</p>
+                    <p className="text-xs font-bold text-accent">840 W/m²</p>
+                  </div>
+                  <div className="space-y-0.5">
+                    <p className="text-[9px] text-white/40 uppercase">Soil pH</p>
+                    <p className="text-xs font-bold text-orange-400">6.4 (Acid)</p>
+                  </div>
+                  <div className="space-y-0.5">
+                    <p className="text-[9px] text-white/40 uppercase">Humid</p>
+                    <p className="text-xs font-bold text-blue-400">62%</p>
+                  </div>
+                  <div className="space-y-0.5">
+                    <p className="text-[9px] text-white/40 uppercase">VPD</p>
+                    <p className="text-xs font-bold text-white">1.2 kPa</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
 
           {/* Legend HUD */}
@@ -348,6 +396,13 @@ export default function SatPredictPage() {
           </Card>
         </div>
       </div>
+      
+      <style jsx global>{`
+        @keyframes scan {
+          from { top: 0%; }
+          to { top: 100%; }
+        }
+      `}</style>
     </div>
   );
 }
