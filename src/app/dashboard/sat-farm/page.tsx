@@ -6,7 +6,7 @@ import { generateFarmerVoiceAdvisory } from "@/ai/flows/generate-farmer-voice-ad
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Sprout, Volume2, MapPin, Loader2, PlayCircle, Info } from "lucide-react";
+import { Sprout, Volume2, MapPin, Loader2, PlayCircle, Info, RefreshCw } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { StatCard } from "@/components/dashboard/stat-card";
 
@@ -18,6 +18,7 @@ const fields = [
 
 export default function SatFarmPage() {
   const [loadingId, setLoadingId] = useState<string | null>(null);
+  const [isRouting, setIsRouting] = useState(false);
   const [audioUri, setAudioUri] = useState<string | null>(null);
   const { toast } = useToast();
 
@@ -47,6 +48,19 @@ export default function SatFarmPage() {
     } finally {
       setLoadingId(null);
     }
+  }
+
+  async function handleRouteFertilizer() {
+    setIsRouting(true);
+    // Simulate routing optimization delay
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    toast({
+      title: "Fertilizer Routed",
+      description: "200kg of mature compost from BioLoop batch #24 routed to Sector 7.",
+    });
+    
+    setIsRouting(false);
   }
 
   return (
@@ -149,7 +163,16 @@ export default function SatFarmPage() {
             <div className="p-4 rounded-lg bg-white border border-border">
               <p className="text-xs font-bold mb-1">Local Resource Match</p>
               <p className="text-[11px] text-muted-foreground">BioLoop Nexus has 200kg of mature compost ready for Sector 7 routing.</p>
-              <Button size="sm" className="w-full mt-3 text-xs" variant="outline">Route Fertilizer</Button>
+              <Button 
+                size="sm" 
+                className="w-full mt-3 text-xs gap-2" 
+                variant="outline"
+                onClick={handleRouteFertilizer}
+                disabled={isRouting}
+              >
+                {isRouting ? <Loader2 className="size-3 animate-spin" /> : <RefreshCw className="size-3" />}
+                {isRouting ? "Routing..." : "Route Fertilizer"}
+              </Button>
             </div>
           </CardContent>
         </Card>
