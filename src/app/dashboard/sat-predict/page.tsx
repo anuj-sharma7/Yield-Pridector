@@ -64,6 +64,7 @@ export default function SatPredictPage() {
     setLoading(true);
     setVideoUrl(null);
     try {
+      // Simulate analysis delay
       await new Promise(r => setTimeout(r, 2000));
       setHeatmapUrl(baseImage || null);
       setActiveLayer("ndvi");
@@ -190,6 +191,7 @@ export default function SatPredictPage() {
                     "absolute inset-0 transition-opacity duration-1000 mix-blend-overlay",
                     activeLayer === "ndvi" ? "bg-green-500/10" : activeLayer === "lst" ? "bg-orange-500/10" : "bg-transparent"
                   )}>
+                    {/* Simulated Heatmap Pulsing Zone */}
                     {activeLayer === 'ndvi' && (
                       <div className="absolute top-1/4 right-1/4 size-64 rounded-full bg-red-600/30 blur-[80px] animate-pulse" />
                     )}
@@ -225,25 +227,25 @@ export default function SatPredictPage() {
           <div className="absolute bottom-6 left-6 z-20 flex flex-col gap-2">
              <div className="bg-black/60 backdrop-blur-md border border-white/10 p-2 rounded-xl flex flex-col gap-2 pointer-events-auto">
                 <Button 
-                  variant={activeLayer === 'rgb' ? "accent" : "ghost"} 
+                  variant={activeLayer === 'rgb' ? "default" : "ghost"} 
                   size="sm" 
-                  className={cn("h-10 w-full justify-start gap-3", activeLayer === 'rgb' ? "text-accent-foreground" : "text-white")}
+                  className={cn("h-10 w-full justify-start gap-3", activeLayer === 'rgb' ? "bg-primary text-white" : "text-white")}
                   onClick={() => setActiveLayer('rgb')}
                 >
                   <Eye className="size-4" /> Natural (RGB)
                 </Button>
                 <Button 
-                  variant={activeLayer === 'ndvi' ? "accent" : "ghost"} 
+                  variant={activeLayer === 'ndvi' ? "default" : "ghost"} 
                   size="sm" 
-                  className={cn("h-10 w-full justify-start gap-3", activeLayer === 'ndvi' ? "text-accent-foreground" : "text-white")}
+                  className={cn("h-10 w-full justify-start gap-3", activeLayer === 'ndvi' ? "bg-primary text-white" : "text-white")}
                   onClick={() => setActiveLayer('ndvi')}
                 >
                   <Sprout className="size-4" /> Vegetation (NDVI)
                 </Button>
                 <Button 
-                  variant={activeLayer === 'lst' ? "accent" : "ghost"} 
+                  variant={activeLayer === 'lst' ? "default" : "ghost"} 
                   size="sm" 
-                  className={cn("h-10 w-full justify-start gap-3", activeLayer === 'lst' ? "text-accent-foreground" : "text-white")}
+                  className={cn("h-10 w-full justify-start gap-3", activeLayer === 'lst' ? "bg-primary text-white" : "text-white")}
                   onClick={() => setActiveLayer('lst')}
                 >
                   <Thermometer className="size-4" /> Thermal (LST)
