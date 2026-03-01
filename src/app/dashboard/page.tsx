@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -37,6 +38,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import Link from "next/link";
+import { useToast } from "@/hooks/use-toast";
 
 const data = [
   { name: "Mon", energy: 4000, water: 2400 },
@@ -51,6 +53,9 @@ const data = [
 export default function OverviewPage() {
   const [coords, setCoords] = useState({ lat: "21.1458", lng: "79.0882" }); // Nagpur, Central India
   const [logs, setLogs] = useState<string[]>([]);
+  const [isRouting, setIsRouting] = useState(false);
+  const { toast } = useToast();
+  
   const satelliteImg = PlaceHolderImages.find(img => img.id === "satellite-campus")?.imageUrl;
 
   // Live coordinate jitter and log simulation
@@ -72,6 +77,19 @@ export default function OverviewPage() {
     }, 2000);
     return () => clearInterval(timer);
   }, []);
+
+  async function handleConfirmRoute() {
+    setIsRouting(true);
+    // Simulate routing optimization delay
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    toast({
+      title: "Resource Route Confirmed",
+      description: "200kg of Batch #24 scheduled for Sector 7 delivery. ETA: 24h.",
+    });
+    
+    setIsRouting(false);
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -333,8 +351,21 @@ export default function OverviewPage() {
               <p className="text-xs text-primary-foreground/80 leading-relaxed">
                 Satellite NDVI detected high moisture deficit in <strong className="text-accent">Sector 7 Farm</strong>. Routing 200kg of mature batch.
               </p>
-              <Button variant="secondary" size="sm" className="w-full font-bold bg-white text-primary hover:bg-accent hover:text-accent-foreground border-none">
-                Confirm Resource Route
+              <Button 
+                variant="secondary" 
+                size="sm" 
+                className="w-full font-bold bg-white text-primary hover:bg-accent hover:text-accent-foreground border-none"
+                onClick={handleConfirmRoute}
+                disabled={isRouting}
+              >
+                {isRouting ? (
+                  <>
+                    <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
+                    Routing...
+                  </>
+                ) : (
+                  "Confirm Resource Route"
+                )}
               </Button>
             </div>
 
