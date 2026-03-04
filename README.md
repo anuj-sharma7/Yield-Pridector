@@ -1,38 +1,45 @@
 # VIRIDIAN AI | Satellite-Powered Predictive Sustainability
 
+![Main Dashboard](https://picsum.photos/seed/india-tactical-map/1200/800)
+
 VIRIDIAN AI is a cutting-edge, satellite-driven predictive intelligence platform designed to forecast sustainability crises 7–14 days before they occur. By leveraging multi-temporal satellite data and high-performance AI models, VIRIDIAN empowers campus administrators and farmers to transition from reactive to proactive resource management.
 
-## 🚀 Key Features
+## 🚀 Key Modules
 
-- **SatPredict Engine**: Uses Google **Veo 2.0** to generate 14-day predictive time-lapse simulations of vegetation health (NDVI) and thermal stress (LST).
-- **CampusGuard AI**: A predictive anomaly detection system for energy and water consumption, sending automated "AI Nudges" to wardens via WhatsApp.
-- **SatFarm Advisor**: Generates hyperlocal agricultural advisories in natural voice formats using **Gemini 2.5 TTS**, helping farmers optimize irrigation and pest control.
-- **BioLoop Nexus**: A circular economy engine that tracks organic waste maturity and suggests optimal routing paths from composting pits to nutrient-deficient fields.
-- **ClimateScope**: Hyper-local climate intelligence that transforms raw environmental data into actionable, data-driven policy recommendations.
-- **AI Pitch Studio**: A specialized tool for generating professional demo scripts and recording guides to communicate sustainability impact to stakeholders.
+### 📡 SatPredict Engine
+Uses Google **Veo 2.0** to generate 14-day predictive time-lapse simulations of vegetation health (NDVI) and thermal stress (LST). It leverages AMD ROCm accelerated inference for sub-2s analysis of Sentinel-2 tile stacks.
+![Satellite Analysis](https://picsum.photos/seed/viridian-infrared/800/600)
 
-## 🛠 Tech Stack
+### 🛡️ CampusGuard AI
+A predictive anomaly detection system for energy and water consumption. It uses Isolation Forests and LSTM models to detect spikes before they happen, sending automated "AI Nudges" to wardens and students via WhatsApp.
+![Inference Monitoring](https://picsum.photos/seed/viridian-4/600/400)
 
-- **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
-- **AI Engine**: [Genkit](https://firebase.google.com/docs/genkit) with Google Generative AI (Gemini 2.5 Flash, Veo 2.0, Imagen 4.0)
-- **UI/UX**: [ShadCN UI](https://ui.shadcn.com/), [Tailwind CSS](https://tailwindcss.com/), and [Lucide Icons](https://lucide.dev/)
-- **Acceleration**: Optimized for **AMD ROCm** accelerated inference at the edge.
-- **Charts**: [Recharts](https://recharts.org/) for predictive data visualization.
+### 🚜 SatFarm Advisor
+Generates hyperlocal agricultural advisories in natural voice formats using **Gemini 2.5 TTS**. It bridges the gap between complex satellite telemetry and actionable field management for rural farmers in multiple local languages.
+
+### ♻️ BioLoop Nexus
+A circular economy engine that tracks organic waste maturity and suggests optimal routing paths from composting pits to nutrient-deficient fields identified by real-time NDVI analysis.
+![BioLoop Facility](https://picsum.photos/seed/viridian-3/600/400)
+
+### 🌡️ ClimateScope AI
+Hyper-local climate intelligence that transforms raw environmental data into actionable, data-driven policy recommendations. It maps heat islands and generates sustainability mandates automatically.
+
+## 🛠 Technical Architecture
+
+- **Framework**: Next.js 15 (App Router)
+- **AI Core**: Google Genkit v1.x with Gemini 2.5 Flash
+- **Computer Vision**: Veo 2.0 for temporal simulations & Gemini 2.5 Flash Image for heatmap generation.
+- **Audio Intelligence**: Gemini 2.5 TTS (Algenib profile) for multilingual voice advisories.
+- **Inference Acceleration**: Optimized for **AMD ROCm** HIP 5.7 kernels at the edge for low-latency processing.
+- **UI/UX**: ShadCN UI + Tailwind CSS with a custom "Viridian & Lime" theme for high-contrast visibility.
+- **Data Layer**: Powered by public-domain satellite data from ESA (Sentinel-2) and NASA (Landsat).
 
 ## 📂 Project Structure
 
-- `src/app/dashboard`: Main application modules.
+- `src/app/dashboard`: Main application modules and interactive GIS layers.
 - `src/ai/flows`: Genkit AI logic for simulations, voice generation, and policy drafts.
 - `src/components/ui`: Reusable UI components powered by ShadCN.
-- `src/app/globals.css`: Custom Viridian Green / Lime color theme.
-
-## 🚦 Getting Started
-
-1. **Dashboard Access**: Navigate to `/dashboard` to view the unified satellite intelligence layer.
-2. **Predictive Simulation**: Go to **SatPredict** and click "Generate Future Timelapse" to see the Veo 2.0 engine in action.
-3. **Voice Advisory**: Visit **SatFarm Advisor** to synthesize a custom voice memo for field management.
-4. **AI Chat**: Use the **Campus AI Assistant** to ask natural language questions about your sustainability data.
+- `src/app/globals.css`: Custom CSS theme utilizing HSL variables for the Viridian palette.
 
 ---
-
-*This project was developed as a high-fidelity prototype for the Sustainable AI Track, focusing on zero-cost satellite data utilization for global scalability.*
+*Developed for the Sustainable AI Track | SIH Award-Winning Predictive Pipeline*
