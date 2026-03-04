@@ -1,6 +1,6 @@
 # VIRIDIAN AI | Satellite-Powered Predictive Sustainability
 
-![Main Dashboard](https://picsum.photos/seed/india-tactical-map/1200/800)
+![VIRIDIAN Intelligence Dashboard](https://picsum.photos/seed/viridian-analytics/1200/800)
 
 VIRIDIAN AI is a cutting-edge, satellite-driven predictive intelligence platform designed to forecast sustainability crises 7–14 days before they occur. By leveraging multi-temporal satellite data and high-performance AI models, VIRIDIAN empowers campus administrators and farmers to transition from reactive to proactive resource management.
 
